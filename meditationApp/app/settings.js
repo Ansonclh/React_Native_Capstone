@@ -76,6 +76,107 @@ const Settings = () => {
                 </View>
             </View>
         </ScrollView>
+
+        {settings.map((setting) => (
+            <TouchableOpacity
+                key={setting.id}
+                style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+                padding: SIZES.medium,
+                borderRadius: SIZES.small,
+                backgroundColor: "#FFF",
+                ...SHADOWS.medium,
+                shadowColor: COLORS.white,
+                marginVertical: SIZES.small,
+                }}
+                onPress={() => router.push(`settings/${setting.route}`)}
+            >
+                <View
+                style={{
+                    width: 50,
+                    height: 50,
+                    backgroundColor: COLORS.white,
+                    borderRadius: SIZES.medium,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+                >
+                    <Image
+                        source={{ uri: setting.icon }}
+                        resizeMode="cover"
+                        style={{ width: "70%", height: "70%" }}
+                    />
+                </View>
+                <View style={{ flex: 1, marginHorizontal: SIZES.medium }}>
+                    <Text
+                        style={{
+                        fontSize: SIZES.medium,
+                        fontFamily: "DMBold",
+                        color: COLORS.primary,
+                        }}
+                        numberOfLines={1}
+                    >
+                        {setting?.title}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        ))}
+
+        <TouchableOpacity
+            style={{
+                flex: 1,
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+                padding: SIZES.medium,
+                borderRadius: SIZES.small,
+                backgroundColor: "#FFC0CB",
+                ...SHADOWS.medium,
+                shadowColor: COLORS.white,
+                marginVertical: SIZES.small,
+            }}
+            onPress={handleLogout}
+            >
+            <View
+                style={{
+                width: 50,
+                height: 50,
+                backgroundColor: COLORS.white,
+                borderRadius: SIZES.medium,
+                justifyContent: "center",
+                alignItems: "center",
+                }}
+            >
+                <Image
+                source={icons.left}
+                resizeMode="cover"
+                style={{
+                    width: "70%",
+                    height: "70%",
+                }}
+                />
+            </View>
+            <View
+                style={{
+                flex: 1,
+                marginHorizontal: SIZES.medium,
+                }}
+            >
+                <Text
+                style={{
+                    fontSize: SIZES.medium,
+                    fontFamily: "DMBold",
+                    color: COLORS.primary,
+                }}
+                numberOfLines={1}
+                >
+                Logout
+                </Text>
+            </View>
+        </TouchableOpacity>
     </SafeAreaView>
     );
 }
