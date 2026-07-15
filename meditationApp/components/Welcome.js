@@ -2,19 +2,19 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../constants/theme";
 
-const getThemeStyles = (isDark) => ({
+const getThemeStyles = (isDarkMode) => ({
 
   userName: {
-    color: isDark ? COLORS.lightWhite : COLORS.darkText,
+    color: isDarkMode ? COLORS.darkText : COLORS.lightText,
   },
   welcomeMessage: {
-    color: isDark ? COLORS.lightText : COLORS.darkText,
+    color: isDarkMode ? COLORS.darkText : COLORS.lightText,
   }
 
 });
 
-const Welcome = ({ userDetails, isDark }) => {
-  const themeStyles = getThemeStyles(isDark);
+const Welcome = ({ userDetails, isDarkMode }) => {
+  const themeStyles = getThemeStyles(isDarkMode);
 
   return (
     <View>

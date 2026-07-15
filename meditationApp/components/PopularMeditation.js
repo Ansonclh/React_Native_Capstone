@@ -13,7 +13,7 @@ import {
 
 import useFetch from "../hook/useFetch";
 
-const PopularMeditation = () => {
+const PopularMeditation = ({ isDarkMode }) => {
     const router = useRouter();
     const { data, isLoading, error } = useFetch("search", {
       query: "React developer",
@@ -27,7 +27,7 @@ const PopularMeditation = () => {
         style={styles.container(selectedMeditation, item)}
         onPress={() => handleCardPress(item)}
         >
-            <TouchableOpacity style={styles.logoContainer(selectedMeditation, item)}>
+            <TouchableOpacity style={styles.logoContainer(selectedMeditation, item)} onPress={() => handleCardPress(item)}>
                 <Image
                 source={{ uri: item?.image }}
                 resizeMode="cover"
@@ -64,30 +64,31 @@ const PopularMeditation = () => {
   
    return(
     <>
-        <View style={styles.container} testID="popularContainer">
-            <View style={styles.header} testID="popularHeader">
-                <Text style={styles.headerTitle}>Popular Meditations</Text>
-            <TouchableOpacity>
+      <View style={styles.wrapper} testID="popularContainer">
+        <View style={styles.header} testID="popularHeader">
+          <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>Popular Meditations</Text>
+          <TouchableOpacity>
 
-            </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
 
-            <View style={styles.cardsContainer}>
-                {isLoading ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-                ) : error ? (
-                <Text>Something went wrong</Text>
-                ) : (
-                <FlatList
-                    data={data}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderMeditationCard}
-                    contentContainerStyle={{ columnGap: SIZES.medium }}
-                    horizontal
-                />
-                )}
-            </View>
+        <View style={styles.cardsContainer}>
+            {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.primary} />
+            ) : error ? (
+            <Text style={{ color: isDarkMode ? COLORS.darkText : COLORS.lightText }}>Something went wrong</Text>
+            ) : (
+            <FlatList
+                data={data}
+                keyExtractor={(item) => item.id}
+                renderItem={renderMeditationCard}
+                contentContainerStyle={{ columnGap: SIZES.medium }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+            />
+            )}
         </View>
-        </View>
+      </View>
     </>
    )
   };
@@ -95,6 +96,10 @@ const PopularMeditation = () => {
   export default PopularMeditation;
 
   const styles = StyleSheet.create({
+
+    wrapper: {
+      marginTop: SIZES.xLarge,
+    },
 
     container: (selectedMeditation, item) => ({
       width: 270,

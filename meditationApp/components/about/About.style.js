@@ -8,8 +8,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-contextText: {
-    textAlign: 'justify'
+  headText: {
+    fontSize: SIZES.large,
+    fontFamily: FONT.bold,
+    marginBottom: SIZES.small,
+  },
+  contentBox: {
+    marginTop: SIZES.small,
+  },
+  contextText: {
+    textAlign: 'justify',
+    fontSize: SIZES.medium,
+    fontFamily: FONT.regular,
   },
   logoBox: {
     width: "100%",

@@ -36,6 +36,7 @@ const Layout = () => {
 
         checkLoginState();
     }, []);
+    console.log("isLoggedIn", isLoggedIn);
 
     if (isLoading || !fontsLoaded) {
         return (
@@ -54,6 +55,10 @@ const Layout = () => {
                 <Stack.Screen name="login" />
                 <Stack.Screen name="signup" />
                 <Stack.Screen name="home" />
+                <Stack.Screen name="settings" />
+                <Stack.Screen name="settings/ThemeChange" />
+                <Stack.Screen name="settings/DailyReminders" />
+                <Stack.Screen name="settings/Favourites" />
             </Stack>
         </ThemeProvider>
   );

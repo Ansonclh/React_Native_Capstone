@@ -6,10 +6,13 @@ import { ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ScreenHeaderBtn from "../components/ScreenHeaderBtn";
 import { TouchableOpacity } from "react-native";
+import { useTheme } from "../context/ThemeProvider";
 
 const Settings = () => {
     const [userDetails, setUserDetails] = useState(null);
     const router = useRouter();
+    const { theme } = useTheme();
+    const isDarkMode = theme === "dark";
     const settings = [
     {
         id: 1,
@@ -47,7 +50,7 @@ const Settings = () => {
         router.push("/login");
     };
     return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: isDarkMode ? COLORS.darkBackground : COLORS.lightWhite }}>
         <ScreenHeaderBtn />
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ flex: 1, padding: SIZES.medium }}>
@@ -57,7 +60,7 @@ const Settings = () => {
                         style={{
                             fontFamily: FONT.regular,
                             fontSize: SIZES.large,
-                            color: COLORS.secondary,
+                            color: isDarkMode ? COLORS.darkText : COLORS.secondary,
                         }}
                         >
                         Hello {JSON.parse(userDetails).userName}!
@@ -67,7 +70,7 @@ const Settings = () => {
                         style={{
                         fontFamily: FONT.bold,
                         fontSize: SIZES.xLarge,
-                        color: COLORS.primary,
+                        color: isDarkMode ? COLORS.darkText : COLORS.primary,
                         marginTop: 2,
                         }}
                     >
@@ -87,7 +90,7 @@ const Settings = () => {
                 flexDirection: "row",
                 padding: SIZES.medium,
                 borderRadius: SIZES.small,
-                backgroundColor: "#FFF",
+                backgroundColor: isDarkMode ? COLORS.secondary : "#FFF",
                 ...SHADOWS.medium,
                 shadowColor: COLORS.white,
                 marginVertical: SIZES.small,
@@ -98,7 +101,7 @@ const Settings = () => {
                 style={{
                     width: 50,
                     height: 50,
-                    backgroundColor: COLORS.white,
+                    backgroundColor: isDarkMode ? COLORS.gray : COLORS.white,
                     borderRadius: SIZES.medium,
                     justifyContent: "center",
                     alignItems: "center",
@@ -115,7 +118,7 @@ const Settings = () => {
                         style={{
                         fontSize: SIZES.medium,
                         fontFamily: "DMBold",
-                        color: COLORS.primary,
+                        color: isDarkMode ? COLORS.darkText : COLORS.primary,
                         }}
                         numberOfLines={1}
                     >
@@ -133,7 +136,7 @@ const Settings = () => {
                 flexDirection: "row",
                 padding: SIZES.medium,
                 borderRadius: SIZES.small,
-                backgroundColor: "#FFC0CB",
+                backgroundColor: isDarkMode ? COLORS.tertiary : "#FFC0CB",
                 ...SHADOWS.medium,
                 shadowColor: COLORS.white,
                 marginVertical: SIZES.small,
@@ -144,7 +147,7 @@ const Settings = () => {
                 style={{
                 width: 50,
                 height: 50,
-                backgroundColor: COLORS.white,
+                backgroundColor: isDarkMode ? COLORS.gray : COLORS.white,
                 borderRadius: SIZES.medium,
                 justifyContent: "center",
                 alignItems: "center",
@@ -169,7 +172,7 @@ const Settings = () => {
                 style={{
                     fontSize: SIZES.medium,
                     fontFamily: "DMBold",
-                    color: COLORS.primary,
+                    color: isDarkMode ? COLORS.darkText : COLORS.primary,
                 }}
                 numberOfLines={1}
                 >
@@ -179,4 +182,6 @@ const Settings = () => {
         </TouchableOpacity>
     </SafeAreaView>
     );
-}
+};
+
+export default Settings;

@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, Image } from "react-native";
 
 import styles from "./MeditationTopDisplay.style";
+import { COLORS } from "../../constants";
 
-const MeditationTopDisplay = ({ meditationImage, meditationTitle, duration, target }) => {
+const MeditationTopDisplay = ({ meditationImage, meditationTitle, duration, target, isDarkMode }) => {
 
 
 return (
@@ -19,11 +20,11 @@ return (
     </View>
 
     <View style={styles.meditationTitleBox}>
-      <Text style={styles.meditationTitle}>{meditationTitle}</Text>
+      <Text style={[styles.meditationTitle, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>{meditationTitle}</Text>
     </View>
 
     <View style={styles.meditationInfoBox}>
-      <Text style={styles.meditationName}>{target} / </Text>
+      <Text style={[styles.meditationName, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>{target} / </Text>
       <View style={styles.durationBox}>
         <Image
           source={"https://cdn-icons-png.flaticon.com/512/109/109613.png"}

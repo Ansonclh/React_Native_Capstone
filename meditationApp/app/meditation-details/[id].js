@@ -21,12 +21,15 @@ import {
 import ScreenHeaderBtn from '../../components/ScreenHeaderBtn';
 import { COLORS, icons, SIZES } from "../../constants";
 import useFetch from "../../hook/useFetch";
+import { useTheme } from "../../context/ThemeProvider";
 
 const tabs = ["About", "Instructions"];
 
 const MeditationDetails = () => {
   const params = useGlobalSearchParams();
   const id = params.id;
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const { data, isLoading, error, refetch } = useFetch("search", {
     query: id,
   });
@@ -47,18 +50,19 @@ const MeditationDetails = () => {
             <About
                 title={meditationItem.title}
                 info={meditationItem.description ?? "No data provided"}
+                isDarkMode={isDarkMode}
             />
             );
         } else if (activeTab === "Instructions") {
             return (
             <View style={styles.specificsContainer}>
-                <Text style={styles.specificsTitle}>Instructions:</Text>
+                <Text style={[styles.specificsTitle, { color: isDarkMode ? COLORS.darkText : COLORS.lightText }]}>Instructions:</Text>
                 <View style={styles.pointsContainer}>
                     {/* ?? is nullish coalescing operator, returns the left operand if it is not null or undefined, otherwise returns the right operand */}
                     {(meditationItem.instructions ?? ["N/A"]).map((item, index) => (
                         <View style={styles.pointWrapper} key={index}>
-                            <View style={styles.pointDot} />
-                            <Text style={styles.pointText}>{item}</Text>
+                            <View style={[styles.pointDot, { backgroundColor: isDarkMode ? COLORS.darkText : COLORS.primary }]} />
+                            <Text style={[styles.pointText, { color: isDarkMode ? COLORS.darkText : COLORS.gray }]}>{item}</Text>
                         </View>
                     ))}
                 </View>
@@ -83,7 +87,7 @@ const MeditationDetails = () => {
 
 
 return (
-  <SafeAreaView style={{ flex: 1 }}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: isDarkMode ? COLORS.darkBackground : COLORS.lightWhite }}>
     <ScreenHeaderBtn detailPage={true} handleShare={onShare} />
 
     <ScrollView
@@ -95,9 +99,9 @@ return (
       {isLoading ? (
         <ActivityIndicator size="large" color={COLORS.primary} />
       ) : error ? (
-        <Text>Something went wrong</Text>
+        <Text style={{ color: isDarkMode ? COLORS.darkText : COLORS.lightText }}>Something went wrong</Text>
       ) : !meditationItem || meditationItem.length === 0 ? (
-        <Text>No data available</Text>
+        <Text style={{ color: isDarkMode ? COLORS.darkText : COLORS.lightText }}>No data available</Text>
       ) : (
         <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
           <MeditationTopDisplay
@@ -105,12 +109,14 @@ return (
             meditationTitle={meditationItem.title}
             duration={meditationItem.duration}
             target={meditationItem.target}
+            isDarkMode={isDarkMode}
           />
 
           <Tabs
             tabs={tabs}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            isDarkMode={isDarkMode}
           />
 
           {displayTabContent()}
@@ -118,7 +124,7 @@ return (
       )}
     </ScrollView>
 
-    <Footer data={meditationItem} />
+    <Footer data={meditationItem} isDarkMode={isDarkMode} />
   </SafeAreaView>
 );
 }

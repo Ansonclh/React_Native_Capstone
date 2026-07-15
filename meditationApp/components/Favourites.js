@@ -8,15 +8,18 @@ import {
   StyleSheet,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { COLORS, FONT, SIZES } from "../../constants";
-import DailyMeditation from "../../components/DailyMeditation";
+import { COLORS, FONT, SIZES } from "../constants/index";
+import DailyMeditation from "./DailyMeditation";
 import { useFocusEffect } from "expo-router";
-import ScreenHeaderBtn from '../../components/ScreenHeaderBtn'
+import ScreenHeaderBtn from './ScreenHeaderBtn'
+import { useTheme } from "../context/ThemeProvider";
 
 const Favourites = () => {
 
     const [favorites, setFavorites] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { theme } = useTheme();
+    const isDarkMode = theme === "dark";
 
      const loadFavorites = async () => {
         try {
@@ -36,18 +39,18 @@ const Favourites = () => {
         }, [])
     );
     return(
-            <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.darkBackground }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: isDarkMode ? COLORS.darkBackground : COLORS.lightWhite }}>
                 <ScreenHeaderBtn/>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.container}>
                     {isLoading ? (
                         <ActivityIndicator size="large" color={COLORS.primary} />
                     ) : favorites.length === 0 ? (
-                        <Text style={styles.headerTitle}>No favorite items found.</Text>
+                        <Text style={[styles.headerTitle, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>No favorite items found.</Text>
                     ) : (
                         <>
                             <Text style={{ textAlign: "center", color: "#FF4500", fontWeight: "bold" }}>My Favourite Exercises</Text>
-                            <DailyMeditation meditations={favorites} />
+                            <DailyMeditation meditations={favorites} isDarkMode={isDarkMode} />
                         </>
                     )}
                     </View>

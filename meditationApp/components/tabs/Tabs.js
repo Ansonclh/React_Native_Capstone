@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import { TouchableOpacity, FlatList, Text, View } from "react-native";
 
 import styles from "./Tabs.style";
-import { SIZES } from "../../constants";
+import { COLORS, SIZES } from "../../constants";
 
-function TabButton({ name, activeTab, onHandleSearchType }) {
+function TabButton({ name, activeTab, onHandleSearchType, isDarkMode }) {
   return (
     <TouchableOpacity
-      style={styles.btn(name, activeTab)}
+      style={[styles.btn(name, activeTab), { backgroundColor: name === activeTab ? COLORS.primary : isDarkMode ? COLORS.secondary : "#F3F4F8" }]}
       onPress={onHandleSearchType}
     >
-      <Text style={styles.btnText(name, activeTab)}>{name}</Text>
+      <Text style={[styles.btnText(name, activeTab), { color: name === activeTab ? "#C3BFCC" : isDarkMode ? COLORS.darkText : "#AAA9B8" }]}>{name}</Text>
     </TouchableOpacity>
   );
 }
 
-const Tabs = ({ tabs, activeTab, setActiveTab }) => {
+const Tabs = ({ tabs, activeTab, setActiveTab, isDarkMode }) => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -26,6 +26,7 @@ const Tabs = ({ tabs, activeTab, setActiveTab }) => {
           <TabButton
             name={item}
             activeTab={activeTab}
+            isDarkMode={isDarkMode}
             onHandleSearchType={() => setActiveTab(item)}  //Changes the active tab when a button is pressed.
           />
         )}

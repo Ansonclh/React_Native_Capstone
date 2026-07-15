@@ -10,6 +10,7 @@ import * as Notifications from "expo-notifications";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { COLORS, SIZES } from "../../constants";
 import { useTheme } from "../../context/ThemeProvider";
+import ScreenHeaderBtn from "../../components/ScreenHeaderBtn";
 
 const DailyReminders = () => {
     const { theme } = useTheme();
@@ -120,6 +121,7 @@ const DailyReminders = () => {
     return(
          <SafeAreaView style={{ flex: 1, backgroundColor: isDarkMode ? COLORS.darkBackground : COLORS.lightWhite }}>
             <Stack.Screen options={{ headerTitle: "Daily Reminders" }} />
+            <ScreenHeaderBtn />
             <ScrollView contentContainerStyle={{ padding: SIZES.medium }}>
                 <Calendar
                 onDayPress={(day) => setSelectedDate(day.dateString)}
@@ -139,24 +141,25 @@ const DailyReminders = () => {
 
                 <TextInput
                 placeholder="Enter Time (HH:mm)"
+                placeholderTextColor={isDarkMode ? COLORS.gray : COLORS.gray2}
                 value={manualTime}
                 onChangeText={setManualTime}
                 keyboardType="numeric"
                 maxLength={5}
-                style={styles.input}
+                style={[styles.input, { borderColor: COLORS.primary, color: isDarkMode ? COLORS.darkText : COLORS.lightText }]}
                 />
 
-                <Text style={styles.selected}>Date: {selectedDate || "None"}</Text>
-                <Text style={styles.selected}>Time: {manualTime || selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</Text>
+                <Text style={[styles.selected, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>Date: {selectedDate || "None"}</Text>
+                <Text style={[styles.selected, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>Time: {manualTime || selectedTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</Text>
 
                 <TouchableOpacity onPress={handleAddReminder} style={styles.button}>
                     <Text style={styles.buttonText}>Add Reminder</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.reminderHeader}>All Reminders:</Text>
+                <Text style={[styles.reminderHeader, { color: isDarkMode ? COLORS.darkText : COLORS.primary }]}>All Reminders:</Text>
                 {reminders.length > 0 ? reminders.map((rem) => 
                     <Reminder key={rem.id} item={rem} />)
-                     : <Text>No reminders yet.</Text>
+                     : <Text style={{ color: isDarkMode ? COLORS.darkText : COLORS.lightText }}>No reminders yet.</Text>
                 }
             </ScrollView>
             </SafeAreaView>
@@ -171,8 +174,8 @@ const styles = StyleSheet.create({
   },
   description: { color: COLORS.lightWhite, fontWeight: "bold" },
   date: { color: COLORS.darkText, fontSize: SIZES.small },
-  input: { borderColor: COLORS.primary, borderWidth: 1, padding: SIZES.small, marginVertical: SIZES.small },
-  selected: { fontSize: SIZES.medium, marginVertical: SIZES.small, color: COLORS.primary },
+  input: { borderWidth: 1, padding: SIZES.small, marginVertical: SIZES.small },
+  selected: { fontSize: SIZES.medium, marginVertical: SIZES.small },
   button: { backgroundColor: COLORS.primary, padding: SIZES.medium, borderRadius: SIZES.medium, alignItems: "center" },
   buttonText: { color: COLORS.lightWhite, fontWeight: "bold" },
   deleteButton: { marginTop: SIZES.small, alignSelf: "flex-end" },
